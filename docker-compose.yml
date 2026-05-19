@@ -1,0 +1,39 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-agenda
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: bd-agenda
+      MYSQL_USER: coti
+      MYSQL_PASSWORD: Coti2026
+      MYSQL_ROOT_PASSWORD: Coti2026
+    volumes:
+      - mysql_data_agenda_api:/var/lib/mysql
+    networks:
+      - agenda_network
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin-agenda
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: Coti2026
+    networks:
+      - agenda_network
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data_agenda_api:
+
+networks:
+  agenda_network:
+    driver: bridge

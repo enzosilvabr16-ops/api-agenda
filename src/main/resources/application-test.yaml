@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: api-agenda
+
+  datasource:
+    url: jdbc:h2:mem:api_agenda_test;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  h2:
+    console:
+      enabled: true
+
+server:
+  port: 8083
+
+jwt:
+  secret: 537fb3d6-1192-425e-8142-1e8f4201944e
+  expiration: 3600000
