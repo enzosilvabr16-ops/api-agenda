@@ -12,7 +12,7 @@ services:
       MYSQL_PASSWORD: Coti2026
       MYSQL_ROOT_PASSWORD: Coti2026
     volumes:
-      - mysql_data_agenda_api:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
     networks:
       - agenda_network
 
@@ -31,8 +31,24 @@ services:
     depends_on:
       - mysql
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-agenda
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: coti
+      RABBITMQ_DEFAULT_PASS: coti
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - agenda_network
+
 volumes:
-  mysql_data_agenda_api:
+  mysql_data:
+  rabbitmq_data:
 
 networks:
   agenda_network:

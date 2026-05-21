@@ -37,7 +37,7 @@ public class Tarefa {
     private Boolean finalizado;
 
     @Column(name = "usuario_id", nullable = false)
-    private String usuarioId;
+    private UUID usuarioId;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id", nullable = false)
