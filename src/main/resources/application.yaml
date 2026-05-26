@@ -34,4 +34,3 @@ cors:
 
 jwt:
   secret: 537fb3d6-1192-425e-8142-1e8f4201944e
-  expiration: 3600000
