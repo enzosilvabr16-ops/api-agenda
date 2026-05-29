@@ -18,12 +18,12 @@ public class CategoriaService {
     private CategoriaRepository categoriaRepository;
 
     //Serviço para cadastrar categoria
-    public CategoriaResponse cadastrar(CategoriaRequest request) {
+    public CategoriaResponse cadastrar(CategoriaRequest request, UUID usuarioId) {
 
         //Criando um objeto da entidade 'Categoria'
         var categoria = new Categoria();
         categoria.setNome(request.nome());
-        categoria.setUsuarioId(UUID.randomUUID().toString()); //Provisório (Precisamos pegar o ID do usuário do TOKEN)
+        categoria.setUsuarioId(usuarioId);
 
         //Salvar a categoria no banco de dados
         categoriaRepository.save(categoria);
@@ -33,10 +33,11 @@ public class CategoriaService {
     }
 
     //Serviço para atualizar categoria
-    public CategoriaResponse atualizar(Integer id, CategoriaRequest request) {
+    public CategoriaResponse atualizar(Integer id, CategoriaRequest request, UUID usuarioId) {
 
         //Buscar a categoria no banco de dados através do ID
-        var categoria = categoriaRepository.findById(id)
+        var categoria = categoriaRepository
+                .findByIdAndUsuarioId(id, usuarioId)
                 .orElseThrow(CategoriaNaoEncontradaException::new);
 
         //Alterar os dados da categoria
@@ -50,10 +51,10 @@ public class CategoriaService {
     }
 
     //Serviço para excluir uma categoria
-    public CategoriaResponse excluir(Integer id) {
+    public CategoriaResponse excluir(Integer id, UUID usuarioId) {
 
         //Buscar a categoria no banco de dados através do ID
-        var categoria = categoriaRepository.findById(id)
+        var categoria = categoriaRepository.findByIdAndUsuarioId(id, usuarioId)
                 .orElseThrow(CategoriaNaoEncontradaException::new);
 
         //Excluir a categoria
@@ -64,10 +65,10 @@ public class CategoriaService {
     }
 
     //Serviço para consultar todas as categorias do banco de dados
-    public List<CategoriaResponse> consultar() {
+    public List<CategoriaResponse> consultar(UUID usuarioId) {
 
         //Consultando todas as categorias cadastradas
-        var categorias = categoriaRepository.findAll();
+        var categorias = categoriaRepository.findByUsuarioId(usuarioId);
 
         //Copiar todos os objetos da primeira lista para uma nova lista do DTO
         //Convertendo cada objeto 'Categoria' em um objeto 'CategoriaResponse'
@@ -77,10 +78,10 @@ public class CategoriaService {
     }
 
     //Serviço para obter 1 categoria através do ID
-    public CategoriaResponse obterPorId(Integer id) {
+    public CategoriaResponse obterPorId(Integer id, UUID usuarioId) {
 
         //buscar 1 categoria no banco de dados atraves do ID
-        var categoria = categoriaRepository.findById(id)
+        var categoria = categoriaRepository.findByIdAndUsuarioId(id, usuarioId)
                 .orElseThrow(CategoriaNaoEncontradaException::new);
 
         //Retornar os dados da resposta

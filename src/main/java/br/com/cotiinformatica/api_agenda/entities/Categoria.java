@@ -22,7 +22,7 @@ public class Categoria {
     private String nome;
 
     @Column(name = "usuario_id", nullable = false)
-    private String usuarioId;
+    private UUID usuarioId;
 
     @OneToMany(mappedBy = "categoria")
     private List<Tarefa> tarefas;

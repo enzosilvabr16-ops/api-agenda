@@ -1,13 +1,17 @@
 package br.com.cotiinformatica.api_agenda.controllers;
 
 import br.com.cotiinformatica.api_agenda.Exceptions.CategoriaNaoEncontradaException;
+import br.com.cotiinformatica.api_agenda.components.JwtTokenComponent;
 import br.com.cotiinformatica.api_agenda.components.PublisherComponent;
 import br.com.cotiinformatica.api_agenda.dtos.TarefaRequest;
 
 import br.com.cotiinformatica.api_agenda.services.TarefaService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/v1/tarefas")
@@ -16,10 +20,15 @@ public class TarefaController {
     @Autowired
     private TarefaService tarefaService;
 
+    @Autowired
+    private JwtTokenComponent jwtTokenComponent;
+
     @PostMapping("cadastrar")
-    public ResponseEntity<?> cadastrar(@RequestBody TarefaRequest request) {
+    public ResponseEntity<?> cadastrar(@RequestBody TarefaRequest request, HttpServletRequest http) {
         try {
-            var response = tarefaService.cadastrar(request);
+            var usuarioId = jwtTokenComponent.getUserId(http);
+
+            var response = tarefaService.cadastrar(request, usuarioId);
             return ResponseEntity.status(201).body(response);
         }
         catch(CategoriaNaoEncontradaException e) {

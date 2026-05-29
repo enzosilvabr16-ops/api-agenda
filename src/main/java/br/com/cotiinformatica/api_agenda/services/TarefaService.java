@@ -30,8 +30,8 @@ public class TarefaService {
     @Autowired
     private ObjectMapper objectMapper;
     @Transactional
-    public TarefaResponse cadastrar(TarefaRequest request) {
-        var categoria = categoriaRepository.findById(request.categoriaId())
+    public TarefaResponse cadastrar(TarefaRequest request, UUID usuarioId) {
+        var categoria = categoriaRepository.findByIdAndUsuarioId(request.categoriaId(), usuarioId)
                 .orElseThrow(CategoriaNaoEncontradaException::new);
 
         var tarefa = new Tarefa();
@@ -41,7 +41,7 @@ public class TarefaService {
         tarefa.setPrioridade(Prioridade.valueOf(request.prioridade()));
         tarefa.setFinalizado(request.finalizado());
         tarefa.setCategoria(categoria);
-        tarefa.setUsuarioId(UUID.randomUUID());
+        tarefa.setUsuarioId(usuarioId);
     //salvar as tarefas no bd
         tarefaRepository.save(tarefa);
 
