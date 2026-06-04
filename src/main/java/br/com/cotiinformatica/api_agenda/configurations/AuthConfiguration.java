@@ -23,7 +23,7 @@ public class AuthConfiguration {
         registration.setFilter(new AuthenticationFilter(secretyKey));
 
         //Definindo os endpoints que o filter irá proteger
-        registration.addUrlPatterns("/api/usuario/obter-dados");
+        registration.addUrlPatterns("/api/*");
 
         return registration;
 

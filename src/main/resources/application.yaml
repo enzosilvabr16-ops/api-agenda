@@ -33,4 +33,4 @@ cors:
   enabled: http://localhost:4200
 
 jwt:
-  secret: 537fb3d6-1192-425e-8142-1e8f4201944e
+  secret: 73fe9e8d-1165-4178-b702-845dc8dfedb5
