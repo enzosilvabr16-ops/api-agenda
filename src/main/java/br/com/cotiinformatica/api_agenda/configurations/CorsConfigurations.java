@@ -24,3 +24,4 @@ public class CorsConfigurations implements WebMvcConfigurer {
                 .allowedHeaders("*");
     }
 }
+///wwwwwwwwwwwwwwwwwwwwww
